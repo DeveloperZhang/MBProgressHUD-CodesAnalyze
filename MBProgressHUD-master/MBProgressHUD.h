@@ -187,10 +187,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Grace period is the time (in seconds) that the invoked method may be run without
  * showing the HUD. If the task finishes before the grace time runs out, the HUD will
  * not be shown at all.
+ * 宽限周期(单位秒)是被调用的方法可能没有显示HUD的时间.如果任务在宽限时间前就运行结束了,HUD将不再被显示.
  * This may be used to prevent HUD display for very short tasks.
+ * 这可以用来保护HUD在很短的任务下也能显示.
  * Defaults to 0 (no grace time).
  * @note The graceTime needs to be set before the hud is shown. You thus can't use `showHUDAddedTo:animated:`,
+ * 需要注意的是宽限时间需要在hud显示前设置,并且不能使用'showHUDAddedTo:animated:'的方法
  * but instead need to alloc / init the HUD, configure the grace time and than show it manually.
+ * 但是需要alloc/init HUD,配置宽限时间然后手动显示它
  */
 @property (assign, nonatomic) NSTimeInterval graceTime;
 

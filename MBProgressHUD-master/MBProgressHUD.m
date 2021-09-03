@@ -134,16 +134,19 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 
 - (void)showAnimated:(BOOL)animated {
     MBMainThreadAssert();
+    //让timer从runloop中移除并失效
     [self.minShowTimer invalidate];
     self.useAnimation = animated;
     self.finished = NO;
     // If the grace time is set, postpone the HUD display
+    //如果grace时间设置了,延迟HUD的显示
     if (self.graceTime > 0.0) {
         NSTimer *timer = [NSTimer timerWithTimeInterval:self.graceTime target:self selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
         self.graceTimer = timer;
     } 
     // ... otherwise show the HUD immediately
+    //否则立刻显示
     else {
         [self showUsingAnimation:self.useAnimation];
     }
@@ -215,6 +218,7 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
     self.alpha = 1.f;
 
     // Needed in case we hide and re-show with the same NSProgress object attached.
+    //TODO
     [self setNSProgressDisplayLinkEnabled:YES];
 
     if (animated) {
@@ -724,7 +728,6 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - NSProgress
-
 - (void)setNSProgressDisplayLinkEnabled:(BOOL)enabled {
     // We're using CADisplayLink, because NSProgress can change very quickly and observing it may starve the main thread,
     // so we're refreshing the progress only every frame draw
